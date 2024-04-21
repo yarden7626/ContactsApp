@@ -1,0 +1,50 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">Contacts</string>
+    <string name="lastname">LastName</string>
+    <string name="firstname">FirstName</string>
+    <string name="contacts">Contacts</string>
+
+    <string-array name="firstNames">
+        <item>firstName1</item>
+        <item>firstName2</item>
+        <item>firstName3</item>
+        <item>firstName4</item>
+        <item>firstName5</item>
+        <item>firstName6</item>
+        <item>firstName7</item>
+        <item>firstName8</item>
+        <item>firstName9</item>
+        <item>firstName10</item>
+        <item>firstName11</item>
+        <item>firstName12</item>
+        <item>firstName13</item>
+        <item>firstName14</item>
+        <item>firstName15</item>
+
+
+    </string-array>
+
+    <string-array name="lastNames">
+        <item>lastName1</item>
+        <item>lastName2</item>
+        <item>lastName3</item>
+        <item>lastName4</item>
+        <item>lastName5</item>
+        <item>lastName6</item>
+        <item>lastName7</item>
+        <item>lastName8</item>
+        <item>lastName9</item>
+        <item>lastName10</item>
+        <item>lastName11</item>
+        <item>lastName12</item>
+        <item>lastName13</item>
+        <item>lastName14</item>
+        <item>lastName15</item>
+
+
+    </string-array>
+
+    <string name="title_activity_new_item_input">NewItemInputActivity</string>
+
+
+</resources>
