@@ -19,7 +19,7 @@ public class AddDisplayContactActivity extends AppCompatActivity {
     ImageView imageViewProfile;
     EditText editTextFirstName, editTextLastName, editTextAddress, editTextEmail, editTextPhone;
     Button buttonSave, buttonCancel, buttonSelectImage;
-    Uri selectedImage; // Added to store the selected image URI
+    Uri selectedImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +77,7 @@ public class AddDisplayContactActivity extends AppCompatActivity {
             resultIntent.putExtra("imageUri", selectedImage.toString());
         }
         setResult(RESULT_OK, resultIntent);
+
         finish();
     }
 
