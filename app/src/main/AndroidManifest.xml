@@ -15,11 +15,7 @@
         <activity
             android:name=".AddDisplayContactActivity"
             android:exported="false" />
-        <activity
-            android:name=".NewItemInputActivity"
-            android:exported="false"
-            android:label="@string/title_activity_new_item_input"
-            android:theme="@style/Theme.Contacts" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true">

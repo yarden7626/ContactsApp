@@ -45,6 +45,14 @@
     </string-array>
 
     <string name="title_activity_new_item_input">NewItemInputActivity</string>
+    <string name="enter_address">enter Address</string>
+    <string name="enter_last_name">enter last name</string>
+    <string name="enter_first_name">enter first name</string>
+    <string name="enter_email">enter email</string>
+    <string name="enter_phone_number">enter phone number</string>
+    <string name="select_image_from_gallery">select image from gallery</string>
+    <string name="save">save</string>
+    <string name="cancel">cancel</string>
 
 
 </resources>

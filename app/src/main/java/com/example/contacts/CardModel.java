@@ -12,6 +12,10 @@ public class CardModel {
         this.text2=text2;
         this.image=image;
     }
+
+    public CardModel(String firstName, String imageUri, String lastName) {
+    }
+
     public String GetText()
     {
         return text;

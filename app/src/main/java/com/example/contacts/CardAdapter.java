@@ -45,6 +45,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
     public int getItemCount() {
         return models.size();
     }
+
     static  public  class  MyViewHolder extends  RecyclerView.ViewHolder{
         TextView text;
         TextView text2;
