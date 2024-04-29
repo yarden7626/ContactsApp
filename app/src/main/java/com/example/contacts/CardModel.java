@@ -2,31 +2,30 @@ package com.example.contacts;
 
 public class CardModel {
 
-    String text;
-    String text2;
-    int image;
+    String firstName;
+    String lastName;
+    String imageUri;
 
-    public CardModel(String text, int image, String text2)
-    {
-        this.text=text;
-        this.text2=text2;
-        this.image=image;
+
+public CardModel(String firstName,String lastName, String imageUri)
+{
+    this.firstName=firstName;
+    this.lastName=lastName;
+    this.imageUri=imageUri;
+
+}
+
+
+    public String getFirstName() {
+        return firstName;
+    }
+    public String getLastName() {
+        return lastName;
     }
 
-    public CardModel(String firstName, String imageUri, String lastName) {
+    public String getImageUri() {
+        return imageUri;
     }
 
-    public String GetText()
-    {
-        return text;
-    }
-    public String GetText2()
-    {
-        return text2;
-    }
-    public int GetImage()
-    {
-        return image;
-    }
 
 }
