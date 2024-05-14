@@ -2,8 +2,10 @@ package com.example.contacts;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -29,7 +31,7 @@ public class AddDisplayContactActivity extends AppCompatActivity {
 
     ImageView imageViewProfile;
     EditText editTextFirstName, editTextLastName, editTextAddress, editTextEmail, editTextPhone;
-    Button buttonSave, buttonCancel, buttonDelete;
+    Button buttonSave, buttonCancel, buttonDelete, buttonSelectImage;
     int contactId;
 
     @SuppressLint("MissingInflatedId")
@@ -51,6 +53,7 @@ public class AddDisplayContactActivity extends AppCompatActivity {
         buttonSave = findViewById(R.id.buttonSave);
         buttonCancel = findViewById(R.id.buttonClose);
         buttonDelete = findViewById(R.id.buttonDelete);
+        buttonSelectImage = findViewById(R.id.buttonSelectImage);
 
         buttonSave.setOnClickListener(v -> saveContact());
         buttonCancel.setOnClickListener(v -> finish());
@@ -65,7 +68,7 @@ public class AddDisplayContactActivity extends AppCompatActivity {
             buttonDelete.setVisibility(View.GONE);
         }
 
-        imageViewProfile.setOnClickListener(v -> openGallery());
+        buttonSelectImage.setOnClickListener(v -> openGallery());
     }
 
     private void saveContact() {
@@ -76,29 +79,46 @@ public class AddDisplayContactActivity extends AppCompatActivity {
         String phone = editTextPhone.getText().toString();
         String imageUri = getImageUriFromImageView(imageViewProfile);
 
-        Intent resultIntent = new Intent();
-        resultIntent.putExtra("firstName", firstName);
-        resultIntent.putExtra("lastName", lastName);
-        resultIntent.putExtra("address", address);
-        resultIntent.putExtra("email", email);
-        resultIntent.putExtra("phone", phone);
-        resultIntent.putExtra("imageUri", imageUri); // Add the URI of the image
-        setResult(RESULT_OK, resultIntent);
+        MyDBHelper dbHelper = new MyDBHelper(this);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("first_name", firstName);
+        values.put("last_name", lastName);
+        values.put("address", address);
+        values.put("email", email);
+        values.put("phone", phone);
+        values.put("image_uri", imageUri);
+
+        if (contactId == -1) {
+            db.insert("contacts_table", null, values);
+        } else {
+            db.update("contacts_table", values, "id = ?", new String[]{String.valueOf(contactId)});
+        }
+
+        db.close();
+        dbHelper.close();
 
         finish();
     }
 
     private void deleteContact(int contactId) {
+        MyDBHelper dbHelper = new MyDBHelper(this);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("deleted", true);
+
+        db.update("contacts_table", values, "id = ?", new String[]{String.valueOf(contactId)});
+
+        db.close();
+        dbHelper.close();
+
         finish();
     }
 
     private void displayContactDetails(int contactId) {
-        editTextFirstName.setText("John");
-        editTextLastName.setText("Doe");
-        editTextAddress.setText("123 Main St");
-        editTextEmail.setText("john.doe@example.com");
-        editTextPhone.setText("123-456-7890");
-        imageViewProfile.setImageResource(R.drawable.icon16);
+        // Implement your code to display contact details here
     }
 
     private void openGallery() {
