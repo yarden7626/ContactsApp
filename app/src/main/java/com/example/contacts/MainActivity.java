@@ -56,10 +56,8 @@ public class MainActivity extends AppCompatActivity implements CardAdapter.ItemC
 
             Log.d("MainActivity", "Received data: " + firstName + " " + lastName + " " + address + " " + email + " " + phone + " " + imageUri);
 
-            CardModel newContact = new CardModel(firstName, lastName, imageUri, address, phone, false);
+            CardModel newContact = new CardModel(firstName, lastName, imageUri,email, address, phone, false);
             dbHelper.addEntry(newContact);
-
-            models.clear();
             models.addAll(dbHelper.getAllEntriesFromDB());
             adapter.notifyDataSetChanged();
             RecyclerView recyclerView = findViewById(R.id.rcView);

@@ -19,6 +19,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
     private static final String FIRSTNAME_FIELD = "FirstName";
     private static final String LASTNAME_FIELD = "LastName";
     private static final String ADDRESS_FIELD = "Address";
+    private static final String EMAIL_FIELD = "Email";
     private static final String PHONENUMBER_FIELD = "PhoneNumber";
     private static final String IMAGEURI_FIELD = "ImageUri";
     private static final String DELETED_FIELD = "Deleted";
@@ -42,6 +43,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
                 FIRSTNAME_FIELD + " TEXT, " +
                 LASTNAME_FIELD + " TEXT, " +
                 ADDRESS_FIELD + " TEXT, " +
+                EMAIL_FIELD + " TEXT, " +
                 PHONENUMBER_FIELD + " TEXT, " +
                 IMAGEURI_FIELD + " TEXT, " +
                 DELETED_FIELD + " INTEGER DEFAULT 0)";
@@ -63,6 +65,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
         values.put(FIRSTNAME_FIELD, cardModel.getFirstName());
         values.put(LASTNAME_FIELD, cardModel.getLastName());
         values.put(ADDRESS_FIELD, cardModel.getAddress());
+        values.put(EMAIL_FIELD, cardModel.getEmail());
         values.put(PHONENUMBER_FIELD, cardModel.getPhoneNumber());
         values.put(IMAGEURI_FIELD, cardModel.getImageUri());
         values.put(DELETED_FIELD, cardModel.isDeleted() ? 1 : 0);
@@ -81,11 +84,12 @@ public class SQLiteManager extends SQLiteOpenHelper {
                 @SuppressLint("Range") String firstName = cursor.getString(cursor.getColumnIndex(FIRSTNAME_FIELD));
                 @SuppressLint("Range") String lastName = cursor.getString(cursor.getColumnIndex(LASTNAME_FIELD));
                 @SuppressLint("Range") String address = cursor.getString(cursor.getColumnIndex(ADDRESS_FIELD));
+                @SuppressLint("Range") String email = cursor.getString(cursor.getColumnIndex(EMAIL_FIELD));
                 @SuppressLint("Range") String phoneNumber = cursor.getString(cursor.getColumnIndex(PHONENUMBER_FIELD));
                 @SuppressLint("Range") String imageUri = cursor.getString(cursor.getColumnIndex(IMAGEURI_FIELD));
                 @SuppressLint("Range") boolean deleted = cursor.getInt(cursor.getColumnIndex(DELETED_FIELD)) == 1;
 
-                CardModel contact = new CardModel(firstName, lastName, address, phoneNumber, imageUri, deleted);
+                CardModel contact = new CardModel(firstName, lastName, address,email, phoneNumber, imageUri, deleted);
                 contactList.add(contact);
             }
             cursor.close();

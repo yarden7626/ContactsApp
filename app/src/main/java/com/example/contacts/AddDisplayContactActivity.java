@@ -1,7 +1,6 @@
 package com.example.contacts;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -15,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,9 +32,8 @@ public class AddDisplayContactActivity extends AppCompatActivity {
     ImageView imageViewProfile;
     EditText editTextFirstName, editTextLastName, editTextAddress, editTextEmail, editTextPhone;
     Button buttonSave, buttonCancel, buttonDelete, buttonSelectImage;
-    int contactId;
+    int contactId = -1; // Default value
 
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,17 +82,17 @@ public class AddDisplayContactActivity extends AppCompatActivity {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put("first_name", firstName);
-        values.put("last_name", lastName);
-        values.put("address", address);
+        values.put("FirstName", firstName);
+        values.put("LastName", lastName);
+        values.put("Address", address);
         values.put("email", email);
-        values.put("phone", phone);
-        values.put("image_uri", imageUri);
+        values.put("PhoneNumber", phone);
+        values.put("ImageUri", imageUri);
 
         if (contactId == -1) {
-            db.insert("contacts_table", null, values);
+            db.insert("Contacts", null, values);
         } else {
-            db.update("contacts_table", values, "id = ?", new String[]{String.valueOf(contactId)});
+            db.update("Contacts", values, "_id = ?", new String[]{String.valueOf(contactId)});
         }
 
         db.close();
@@ -106,14 +105,12 @@ public class AddDisplayContactActivity extends AppCompatActivity {
         MyDBHelper dbHelper = new MyDBHelper(this);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-        ContentValues values = new ContentValues();
-        values.put("deleted", true);
-
-        db.update("contacts_table", values, "id = ?", new String[]{String.valueOf(contactId)});
+        db.delete("Contacts", "_id = ?", new String[]{String.valueOf(contactId)});
 
         db.close();
         dbHelper.close();
 
+        Toast.makeText(this, "Contact deleted successfully!", Toast.LENGTH_SHORT).show();
         finish();
     }
 
@@ -158,6 +155,10 @@ public class AddDisplayContactActivity extends AppCompatActivity {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
         String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), bitmap, "ContactImage", null);
-        return Uri.parse(path);
+        if (path != null) {
+            return Uri.parse(path);
+        } else {
+            return null;
+        }
     }
 }

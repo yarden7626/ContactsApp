@@ -4,14 +4,16 @@ public class CardModel {
     private String firstName;
     private String lastName;
     private String address;
+    private String email;
     private String phoneNumber;
     private String imageUri;
     private boolean isDeleted;
 
-    public CardModel(String firstName, String lastName, String imageUri, String address, String phoneNumber, boolean isDeleted) {
+    public CardModel(String firstName, String lastName, String imageUri,String email ,String address, String phoneNumber, boolean isDeleted) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
+        this.email = email;
         this.phoneNumber = phoneNumber;
         this.imageUri = imageUri;
         this.isDeleted = isDeleted;
@@ -31,6 +33,9 @@ public class CardModel {
 
     public String getPhoneNumber() {
         return phoneNumber;
+    }
+    public String getEmail() {
+        return email;
     }
 
     public String getImageUri() {

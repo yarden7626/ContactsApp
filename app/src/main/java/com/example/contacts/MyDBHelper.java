@@ -29,6 +29,7 @@ public class MyDBHelper extends SQLiteOpenHelper {
                 "Address TEXT, " +
                 "PhoneNumber TEXT, " +
                 "ImageUri TEXT, " +
+                "Email TEXT, " +
                 "Deleted INTEGER DEFAULT 0)";
 
         sqLiteDatabase.execSQL(createTableQuery);
@@ -56,9 +57,10 @@ public class MyDBHelper extends SQLiteOpenHelper {
                     @SuppressLint("Range") String address = cursor.getString(cursor.getColumnIndex("Address"));
                     @SuppressLint("Range") String phoneNumber = cursor.getString(cursor.getColumnIndex("PhoneNumber"));
                     @SuppressLint("Range") String imageUri = cursor.getString(cursor.getColumnIndex("ImageUri"));
+                    @SuppressLint("Range") String email = cursor.getString(cursor.getColumnIndex("Email"));
                     @SuppressLint("Range") boolean deleted = cursor.getInt(cursor.getColumnIndex("Deleted")) == 1;
 
-                    CardModel cardModel = new CardModel(firstName, lastName, imageUri, address, phoneNumber, deleted);
+                    CardModel cardModel = new CardModel(firstName, lastName, imageUri, address, phoneNumber, email, deleted);
                     cardModels.add(cardModel);
                 } while (cursor.moveToNext());
             }
@@ -82,6 +84,7 @@ public class MyDBHelper extends SQLiteOpenHelper {
         values.put("Address", cardModel.getAddress());
         values.put("PhoneNumber", cardModel.getPhoneNumber());
         values.put("ImageUri", cardModel.getImageUri());
+        values.put("Email", cardModel.getEmail());
         values.put("Deleted", cardModel.isDeleted() ? 1 : 0);
 
         db.insert("Contacts", null, values);
