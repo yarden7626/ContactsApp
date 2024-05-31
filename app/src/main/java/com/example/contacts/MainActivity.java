@@ -1,6 +1,5 @@
 package com.example.contacts;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,16 +16,20 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity implements CardAdapter.ItemClickListener, CardAdapter.ItemLongClickListener {
 
     private static final int ADD_CONTACT_REQUEST = 1;
-    private static final int GALLERY_REQUEST_CODE = 100;
 
     ArrayList<CardModel> models = new ArrayList<>();
     CardAdapter adapter;
+    MyDBHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        dbHelper = new MyDBHelper(this);
+
+        // Load content from the database
+        models = (ArrayList<CardModel>) dbHelper.getAllEntriesFromDB();
 
         RecyclerView recyclerView = findViewById(R.id.rcView);
         adapter = new CardAdapter(this, this, this, models);
@@ -53,8 +56,12 @@ public class MainActivity extends AppCompatActivity implements CardAdapter.ItemC
 
             Log.d("MainActivity", "Received data: " + firstName + " " + lastName + " " + address + " " + email + " " + phone + " " + imageUri);
 
-            models.add(new CardModel(firstName,lastName,imageUri));
-            adapter.notifyItemInserted(models.size());
+            CardModel newContact = new CardModel(firstName, lastName, imageUri, address, phone, false);
+            dbHelper.addEntry(newContact);
+
+            models.clear();
+            models.addAll(dbHelper.getAllEntriesFromDB());
+            adapter.notifyDataSetChanged();
             RecyclerView recyclerView = findViewById(R.id.rcView);
             recyclerView.scrollToPosition(models.size() - 1);
         }
@@ -62,15 +69,16 @@ public class MainActivity extends AppCompatActivity implements CardAdapter.ItemC
 
     @Override
     public void onItemClick(int position) {
-
         CardModel selectedContact = models.get(position);
         Intent intent = new Intent(MainActivity.this, AddDisplayContactActivity.class);
-        intent.putExtra("contactId", position);
+        intent.putExtra("contactId", selectedContact.getId());
         startActivity(intent);
     }
 
     @Override
     public void onItemLongClick(int position) {
+        CardModel selectedContact = models.get(position);
+        dbHelper.deleteEntry(selectedContact.getId());
         models.remove(position);
         adapter.notifyItemRemoved(position);
     }
